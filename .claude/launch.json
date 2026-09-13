@@ -2,6 +2,28 @@
   "version": "0.0.1",
   "configurations": [
     {
+      "name": "lia-analys-app",
+      "runtimeExecutable": "streamlit",
+      "runtimeArgs": [
+        "run",
+        "C:\\Users\\spiri\\OneDrive\\Desktop\\LIA\\Analys\\App\\app.py",
+        "--server.headless=true",
+        "--server.port=8501"
+      ],
+      "port": 8501
+    },
+    {
+      "name": "biblisk-berattelse-index",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "--prefix",
+        "C:\\Users\\spiri\\ws\\biblisk-berattelse-index",
+        "run",
+        "dev"
+      ],
+      "port": 3000
+    },
+    {
       "name": "psykologprogrammet-bildbank",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "dev"],
