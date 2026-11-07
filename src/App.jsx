@@ -12,6 +12,7 @@ import AdminPage from "./pages/Admin/AdminPage";
 import FavoritesPage from "./pages/Favorites/FavoritesPage";
 import HippocampusPage from "./pages/Hippocampus/HippocampusPage";
 import CasesPage from "./pages/Cases/CasesPage";
+import AccountPage from "./pages/Account/AccountPage";
 import RequireAuth from "./components/Admin/RequireAuth";
 
 function App(){
@@ -72,6 +73,11 @@ function App(){
             <Route
                 path="/fall"
                 element={<CasesPage/>}
+            />
+
+            <Route
+                path="/konto"
+                element={<AccountPage/>}
             />
 
             <Route

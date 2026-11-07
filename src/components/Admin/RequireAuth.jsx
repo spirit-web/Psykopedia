@@ -1,35 +1,42 @@
-import { useEffect, useState } from "react";
-
-import { supabase } from "../../services/supabase";
+import useAuth from "../../hooks/useAuth";
 import LoginForm from "./LoginForm";
 
 function RequireAuth({ children }) {
 
-    const [session, setSession] = useState(undefined);
+    const { user, isAdmin, loading, signOut } = useAuth();
 
-    useEffect(() => {
-
-        supabase.auth.getSession().then(({ data }) => setSession(data.session));
-
-        const { data: listener } = supabase.auth.onAuthStateChange((_event, newSession) => {
-
-            setSession(newSession);
-
-        });
-
-        return () => listener.subscription.unsubscribe();
-
-    }, []);
-
-    if (session === undefined) {
+    if (loading) {
 
         return <p style={{ textAlign: "center", marginTop: 80 }}>Laddar...</p>;
 
     }
 
-    if (!session) {
+    if (!user) {
 
         return <LoginForm />;
+
+    }
+
+    if (!isAdmin) {
+
+        return (
+
+            <div style={{ maxWidth: 400, margin: "80px auto", padding: 40, textAlign: "center" }}>
+
+                <h1>🚫 Ingen åtkomst</h1>
+
+                <p style={{ color: "#666" }}>Det här kontot har inte adminbehörighet.</p>
+
+                <button
+                    onClick={signOut}
+                    style={{ marginTop: 10, background: "#173B78", color: "white", border: "none", borderRadius: 10, padding: "10px 20px", fontWeight: 600, cursor: "pointer" }}
+                >
+                    Logga ut
+                </button>
+
+            </div>
+
+        );
 
     }
 

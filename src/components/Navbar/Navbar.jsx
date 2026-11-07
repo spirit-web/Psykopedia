@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import "./Navbar.css";
 import MusicPlayer from "./MusicPlayer";
 import SeahorseIcon from "../Icons/SeahorseIcon";
+import AccountMenu from "./AccountMenu";
 
 function Navbar() {
 
@@ -54,6 +55,8 @@ function Navbar() {
       </Link>
 
       <nav className="navbar-right">
+
+        <AccountMenu />
 
         <Link to="/favoriter" className="nav-button">❤️ Favoriter</Link>
 
