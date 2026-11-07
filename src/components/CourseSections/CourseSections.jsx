@@ -2,9 +2,11 @@ import { useNavigate } from "react-router-dom";
 
 import "./CourseSections.css";
 
-function CourseSections({ courseId }) {
+function CourseSections({ courseId, momentId }) {
 
     const navigate = useNavigate();
+
+    const base = momentId ? `/course/${courseId}/moment/${momentId}` : `/course/${courseId}`;
 
     const sections = [
 
@@ -12,28 +14,28 @@ function CourseSections({ courseId }) {
             icon:"🧠",
             title:"Begrepp",
             text:"Psykologiska koncept",
-            onClick: () => navigate(`/course/${courseId}/begrepp`)
+            onClick: () => navigate(momentId ? base : `${base}/begrepp`)
         },
 
         {
             icon:"🔧",
             title:"Bilder",
             text:"Alla bilder i kursen",
-            onClick: () => navigate(`/course/${courseId}/bilder`)
+            onClick: () => navigate(`${base}/bilder`)
         },
 
         {
             icon:"📚",
             title:"Föreläsningar",
             text:"Visa alla föreläsningar",
-            onClick: () => navigate(`/course/${courseId}/forelasningar`)
+            onClick: () => navigate(`${base}/forelasningar`)
         },
 
         {
             icon:"📄",
             title:"Originalslides",
             text:"Slides bilderna skapades utifrån",
-            onClick: () => navigate(`/course/${courseId}/slides`)
+            onClick: () => navigate(`${base}/slides`)
         }
 
     ];

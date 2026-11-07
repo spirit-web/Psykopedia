@@ -12,11 +12,11 @@ import useCourseSlides from "../../hooks/useCourseSlides";
 
 function CourseSlidesPage() {
 
-    const { id } = useParams();
+    const { id, momentId } = useParams();
 
     const { course, loading: courseLoading } = useCourse(id);
 
-    const { slides, loading } = useCourseSlides(id);
+    const { slides, loading } = useCourseSlides(id, momentId);
 
     if (courseLoading) {
 
@@ -40,7 +40,7 @@ function CourseSlidesPage() {
 
                 <CourseHeader course={course} />
 
-                <CourseSections courseId={course.id} />
+                <CourseSections courseId={course.id} momentId={momentId} />
 
             </div>
 

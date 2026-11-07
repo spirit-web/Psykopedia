@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
 
 import HomePage from "./pages/Home/HomePage";
+import CourseEntryPage from "./pages/Course/CourseEntryPage";
 import CourseLecturesPage from "./pages/Course/CourseLecturesPage";
 import CourseImagesPage from "./pages/Course/CourseImagesPage";
 import CourseSlidesPage from "./pages/Course/CourseSlidesPage";
@@ -32,7 +33,7 @@ function App(){
 
             <Route
                 path="/course/:id"
-                element={<CourseThemesPage/>}
+                element={<CourseEntryPage/>}
             />
 
             <Route
@@ -53,6 +54,26 @@ function App(){
             <Route
                 path="/course/:id/begrepp"
                 element={<CourseThemesPage/>}
+            />
+
+            <Route
+                path="/course/:id/moment/:momentId"
+                element={<CourseThemesPage/>}
+            />
+
+            <Route
+                path="/course/:id/moment/:momentId/forelasningar"
+                element={<CourseLecturesPage/>}
+            />
+
+            <Route
+                path="/course/:id/moment/:momentId/bilder"
+                element={<CourseImagesPage/>}
+            />
+
+            <Route
+                path="/course/:id/moment/:momentId/slides"
+                element={<CourseSlidesPage/>}
             />
 
             <Route

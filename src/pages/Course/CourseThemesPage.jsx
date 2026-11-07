@@ -11,20 +11,43 @@ import CourseSections from "../../components/CourseSections/CourseSections";
 
 import useCourse from "../../hooks/useCourse";
 import useCourseImages from "../../hooks/useCourseImages";
+import useConceptSlides from "../../hooks/useConceptSlides";
 
 function CourseThemesPage() {
 
-    const { id } = useParams();
+    const { id, momentId } = useParams();
 
     const { course, loading: courseLoading } = useCourse(id);
 
-    const { images, loading } = useCourseImages(id);
+    const { images, loading } = useCourseImages(id, momentId);
 
     const [lightboxId, setLightboxId] = useState(null);
+
+    const [expandedIds, setExpandedIds] = useState(() => new Set());
 
     const sorted = [...images].sort((a, b) =>
         (a.title || "").localeCompare(b.title || "", "sv")
     );
+
+    const slidesByImage = useConceptSlides(sorted.map(image => image.id));
+
+    function toggleExpanded(imageId) {
+
+        setExpandedIds(current => {
+
+            const next = new Set(current);
+
+            if (next.has(imageId)) {
+                next.delete(imageId);
+            } else {
+                next.add(imageId);
+            }
+
+            return next;
+
+        });
+
+    }
 
     if (courseLoading) {
 
@@ -48,7 +71,7 @@ function CourseThemesPage() {
 
                 <CourseHeader course={course} />
 
-                <CourseSections courseId={course.id} />
+                <CourseSections courseId={course.id} momentId={momentId} />
 
             </div>
 
@@ -72,73 +95,142 @@ function CourseThemesPage() {
 
                     {
 
-                        sorted.map((image, index) => (
+                        sorted.map((image, index) => {
 
-                            <li
+                            const slides = slidesByImage[image.id] || [];
 
-                                key={image.id}
+                            const starSlides = slides.filter(s => s.niva === "stjarna");
 
-                                style={{
+                            const supportSlides = slides.filter(s => s.niva !== "stjarna");
 
-                                    display: "flex",
+                            const expanded = expandedIds.has(image.id);
 
-                                    alignItems: "center",
+                            return (
 
-                                    gap: 14,
+                                <li
 
-                                    padding: "12px 0",
+                                    key={image.id}
 
-                                    borderBottom: "1px solid #eee"
+                                    style={{
 
-                                }}
+                                        display: "flex",
 
-                            >
+                                        alignItems: "flex-start",
 
-                                <span style={{ width: 24, textAlign: "right", color: "#999", flexShrink: 0 }}>
+                                        gap: 14,
 
-                                    {index + 1}.
+                                        padding: "12px 0",
 
-                                </span>
+                                        borderBottom: "1px solid #eee"
 
-                                {
+                                    }}
 
-                                    image.image_url &&
+                                >
 
-                                    <img
+                                    <span style={{ width: 24, textAlign: "right", color: "#999", flexShrink: 0, paddingTop: 2 }}>
 
-                                        src={image.image_url}
+                                        {index + 1}.
 
-                                        alt={image.title}
+                                    </span>
 
-                                        onClick={() => setLightboxId(image.id)}
+                                    {
 
-                                        style={{
+                                        image.image_url &&
 
-                                            width: 48,
+                                        <img
 
-                                            height: 48,
+                                            src={image.image_url}
 
-                                            objectFit: "cover",
+                                            alt={image.title}
 
-                                            borderRadius: 6,
+                                            onClick={() => setLightboxId(image.id)}
 
-                                            cursor: "pointer",
+                                            style={{
 
-                                            flexShrink: 0,
+                                                width: 48,
 
-                                            background: "#eef1f6"
+                                                height: 48,
 
-                                        }}
+                                                objectFit: "cover",
 
-                                    />
+                                                borderRadius: 6,
 
-                                }
+                                                cursor: "pointer",
 
-                                <strong>{image.title}</strong>
+                                                flexShrink: 0,
 
-                            </li>
+                                                background: "#eef1f6"
 
-                        ))
+                                            }}
+
+                                        />
+
+                                    }
+
+                                    <div style={{ flex: 1, minWidth: 0 }}>
+
+                                        <strong>{image.title}</strong>
+
+                                        {
+                                            image.description &&
+                                            <p style={{ margin: "2px 0 0", color: "#888", fontSize: 14 }}>{image.description}</p>
+                                        }
+
+                                        {
+
+                                            slides.length > 0 &&
+
+                                            <div style={{ marginTop: 6, fontSize: 12, color: "#aaa" }}>
+
+                                                {starSlides.map(s => s.kalla).join(", ")}
+
+                                                {
+
+                                                    supportSlides.length > 0 &&
+
+                                                    <>
+
+                                                        {starSlides.length > 0 && " · "}
+
+                                                        <button
+
+                                                            onClick={() => toggleExpanded(image.id)}
+
+                                                            style={{ background: "none", border: "none", color: "#2D7FF9", cursor: "pointer", fontSize: 12, padding: 0 }}
+
+                                                        >
+
+                                                            {expanded ? "Dölj fler slides" : `Fler slides (${supportSlides.length})`}
+
+                                                        </button>
+
+                                                    </>
+
+                                                }
+
+                                                {
+
+                                                    expanded &&
+
+                                                    <div style={{ marginTop: 4 }}>
+
+                                                        {supportSlides.map(s => s.kalla).join(", ")}
+
+                                                    </div>
+
+                                                }
+
+                                            </div>
+
+                                        }
+
+                                    </div>
+
+                                </li>
+
+                            );
+
+                        })
 
                     }
 

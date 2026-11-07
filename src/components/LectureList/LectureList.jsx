@@ -4,7 +4,7 @@ import LectureCard from "./LectureCard";
 
 import useLectures from "../../hooks/useLectures";
 
-function LectureList({ course }) {
+function LectureList({ course, momentId }) {
 
     const {
 
@@ -12,7 +12,7 @@ function LectureList({ course }) {
 
         loading
 
-    } = useLectures(course.id);
+    } = useLectures(course.id, momentId);
 
     if (loading) {
 

@@ -11,7 +11,7 @@ import useCourse from "../../hooks/useCourse";
 
 function CourseLecturesPage() {
 
-    const { id } = useParams();
+    const { id, momentId } = useParams();
 
     const { course, loading } = useCourse(id);
 
@@ -37,9 +37,9 @@ function CourseLecturesPage() {
 
                 <CourseHeader course={course} />
 
-                <CourseSections courseId={course.id} />
+                <CourseSections courseId={course.id} momentId={momentId} />
 
-                <LectureList course={course} />
+                <LectureList course={course} momentId={momentId} />
 
             </div>
 

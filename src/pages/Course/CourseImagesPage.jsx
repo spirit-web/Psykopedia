@@ -12,11 +12,11 @@ import useCourseImages from "../../hooks/useCourseImages";
 
 function CourseImagesPage() {
 
-    const { id } = useParams();
+    const { id, momentId } = useParams();
 
     const { course, loading: courseLoading } = useCourse(id);
 
-    const { images, loading, removeImage } = useCourseImages(id);
+    const { images, loading, removeImage } = useCourseImages(id, momentId);
 
     if (courseLoading) {
 
@@ -40,7 +40,7 @@ function CourseImagesPage() {
 
                 <CourseHeader course={course} />
 
-                <CourseSections courseId={course.id} />
+                <CourseSections courseId={course.id} momentId={momentId} />
 
             </div>
 

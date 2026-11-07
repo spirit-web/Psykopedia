@@ -48,15 +48,23 @@ export async function getCourse(id){
 
 }
 
-export async function getLectures(courseId){
+export async function getLectures(courseId, momentId){
 
-    const { data,error } = await supabase
+    let query = supabase
 
         .from("lectures")
 
         .select("*, image_count:images(count), cover:images(id,image_url)")
 
-        .eq("course_id",courseId)
+        .eq("course_id",courseId);
+
+    if (momentId) {
+
+        query = query.eq("moment_id", momentId);
+
+    }
+
+    const { data,error } = await query
 
         .order("id", { foreignTable: "cover", ascending: true })
 

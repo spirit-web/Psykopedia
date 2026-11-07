@@ -2,7 +2,7 @@ import { useEffect,useState } from "react";
 
 import { getLectures } from "../services/database";
 
-export default function useLectures(courseId){
+export default function useLectures(courseId, momentId){
 
     const [lectures,setLectures]=useState([]);
 
@@ -14,7 +14,7 @@ export default function useLectures(courseId){
 
             setLoading(true);
 
-            const data=await getLectures(courseId);
+            const data=await getLectures(courseId, momentId);
 
             setLectures(data);
 
@@ -34,7 +34,7 @@ export default function useLectures(courseId){
 
         }
 
-    },[courseId]);
+    },[courseId, momentId]);
 
     return{
 
